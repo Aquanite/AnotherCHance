@@ -1,5 +1,5 @@
-#ifndef CHANCE_TARGET_AARCH64_H
-#define CHANCE_TARGET_AARCH64_H
+#ifndef CHANCE_TARGET_8086_64_H
+#define CHANCE_TARGET_8086_64_H
 
 #include <stdint.h>
 
@@ -9,4 +9,4 @@
 
 #define CHANCE_NATIVE_MAX UINT64_MAX
 
-#endif // CHANCE_TARGET_AARCH64_H
+#endif // CHANCE_TARGET_8086_64_H

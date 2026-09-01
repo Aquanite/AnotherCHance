@@ -5,7 +5,7 @@
 
 namespace CE
 {
-    typedef std::uint64_t VMi64;
+    typedef uint64_t VMi64;
 };
 
 #endif // CHANCE_TYPES_STACK_I64_H

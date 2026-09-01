@@ -1,23 +1,23 @@
 [
-  {
-    "file": "src/a.cpp",
-    "arguments": [
-      "/usr/bin/g++",
-      "-Werror",
-      "-Wfatal-errors",
-      "-Wall",
-      "-Wextra",
-      "-O2",
-      "-std=c++23",
-      "-DT_AARCH64",
-      "-Iinclude/cvm",
-      "-I../common/include",
-      "-c",
-      "src/a.cpp",
-      "-o",
-      "obj/a.o"
-    ],
-    "directory": "/Users/nathanhornby/language/CHance/CVM",
-    "output": "obj/a.o"
-  }
+ {
+  "directory": "I:\\AnotherCHance\\CVM",
+  "arguments": [
+   "E:/w64devkit/w64devkit/bin/g++.exe",
+   "-Werror",
+   "-Wfatal-errors",
+   "-Wall",
+   "-Wextra",
+   "-O2",
+   "-std=c++23",
+   "-DT_8086_64",
+   "-Iinclude/cvm",
+   "-I../common/include",
+   "-c",
+   "src/a.cpp",
+   "-o",
+   "obj/a.o"
+  ],
+  "file": "src/a.cpp"
+ }
 ]
+

@@ -14,8 +14,8 @@ End section, the last section in a binary that defines any extra data used by sa
 Other sections may leave a pointer (offset + start) to data in this section
 */
 
-#include "chance/assert.h"
-#include "chance/target/system.h"
+#include <chance/assert.h>
+#include <chance/target/system.h>
 #include <chance/types/generic/NativeArray.h>
 #include <chance/types/qad.h>
 #include <cstdint>
@@ -42,7 +42,7 @@ namespace CE::Collective
         uint64_t OffsetOfNext; // Start of file + OffsetOfNext == next section
     };
 
-    struct SectionCompilerInfo : Section
+    struct CompilerInfoSection : Section
     {
         uint32_t CompilerVersion;
         const char* CompilerName;
@@ -56,12 +56,33 @@ namespace CE::Collective
         uint64_t SectionCount;
     };
 
+    struct EndSection : Section
+    {
+        CENative DataLength;
+    };
+
     class Collective
     {
     public:
         NativeArray<Section> Sections;
 
     public:
+        void Save(uint8_t*& data, CENative& length)
+        {
+            CE_ASSERT(Sections.Length(), "Length of collective sections cannot be zero!");
+
+            for (CENative i = 0; i < Sections.Length(); i++)
+            {
+                length += GetSectionLength(Sections[i]);
+            }
+
+            CE_NOTIMPL();
+
+            (void)data;
+
+            // TODO: actually flatten the sections & turn pointers into offsets 
+        }
+
         void Load(uint8_t* data, CENative length)
         {
             uint64_t last = 0;
@@ -103,6 +124,9 @@ namespace CE::Collective
                     break;
                 }
 
+                // TODO: Other sections
+                CE_NOTIMPL();
+
                 CE_ASSERT(currentSection->OffsetOfNext > last, "Collective binary tried to jump to a section aleady parsed");
                 CE_ASSERT(currentSection->OffsetOfNext < max, "Collective binary tried to jump to a section out of memory bounds");
 
@@ -125,6 +149,20 @@ namespace CE::Collective
         {
             CE_ASSERT(sect, "Section is NULL in Collective binary");
             CE_ASSERT(sect->Magic == CHANCE_COLLECTIVE_SECTION_MAGIC, "Type is not a Section in Collective binary");
+        }
+        
+        CENative GetSectionLength(Section sect)
+        {
+            switch (sect.Type)
+            {
+                case SectionType::Header:       return sizeof(HeaderSection);
+                case SectionType::CompilerInfo: return sizeof(CompilerInfoSection);
+                case SectionType::Module:       CE_NOTIMPL();
+                case SectionType::Debug:        CE_NOTIMPL();
+                case SectionType::End:          return static_cast<EndSection>(sect).DataLength;
+            }
+
+            CE_FAIL("Section does not exist!");
         }
     };
 };

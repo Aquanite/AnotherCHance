@@ -3,7 +3,6 @@
 
 #include <chance/types/generic/NativeArray.h>
 #include <chance/types/types.h>
-#include <chance/api.h>
 #include <chance/target/system.h>
 #include <chance/assert.h>
 #include <chance/memory/Allocator.h>
@@ -11,7 +10,7 @@
 namespace CE
 {
     template <typename T>
-    class CHANCEAPI NativeStack : NativeArray<T>
+    class NativeStack : NativeArray<T>
     {
     private: // Private Using
         using base = NativeArray<T>;

@@ -12,6 +12,8 @@ namespace CE::VM
         using base = NativeStack<VMObject>;
     
     public:
+        using base::Push;
+        using base::Pop;
         using base::Capacity;
         using base::Length;
         using base::Data;

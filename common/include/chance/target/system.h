@@ -4,6 +4,10 @@
 #include <chance/types/qad.h>
 #ifdef T_AARCH64
     #include <chance/target/AARCH64/AARCH64.h>
+    #pragma message("NOTE: Build target is set to AARCH64")
+#elifdef T_8086_64
+    #include <chance/target/8086_64/8086_64.h>
+    #pragma message("NOTE: Build target is set to X86_64")
 #else
     #error "No target is defined"
 #endif // Arch lists

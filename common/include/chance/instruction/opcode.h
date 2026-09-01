@@ -2,10 +2,11 @@
 #define CHANCE_INSTRUCTION_OPCODE_H
 
 #include <chance/types/qad.h>
+#include <chance/types/vm.h>
 
 namespace CE
 {
-    enum_t CEILOpcode
+    enum_t CEILOpcode : uint8_t
     {
         Nop,        // nop;         No operation
         Const_I,    // const.i X32; I32 Constant

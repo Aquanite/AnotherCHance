@@ -4,7 +4,6 @@
 #include <chance/imports/imports.h>
 #include <chance/target/AARCH64/AARCH64.h>
 #include <chance/types/types.h>
-#include <chance/api.h>
 #include <chance/target/system.h>
 #include <chance/assert.h>
 #include <chance/memory/Allocator.h>
@@ -12,7 +11,7 @@
 namespace CE
 {
     template <typename T>
-    class CHANCEAPI NativeArray
+    class NativeArray
     {
     public: // Public Methods
         ~NativeArray()
@@ -23,8 +22,6 @@ namespace CE
 
         NativeArray(CENative initialCount = 0)
         {
-            // CE_ASSERT(initialCount >= 0, ); - Useless check, since CENative is always unsigned
-
             if (initialCount == 0)
                 return;
 

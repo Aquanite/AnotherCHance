@@ -2,13 +2,12 @@
 #define CHANCE_MEMORY_ALLOCATOR_H
 
 #include <chance/types/vm.h>
-#include <chance/api.h>
 #include <chance/assert.h>
 
 namespace CE
 {
     template <typename T>
-    class CHANCEAPI Allocator
+    class Allocator
     {
     public:
         static T* NativeAlloc(CENative count)

@@ -5,7 +5,7 @@
 
 namespace CE
 {
-    typedef std::uint32_t VMi32;
+    typedef uint32_t VMi32;
 };
 
 #endif // CHANCE_TYPES_STACK_I32_H
