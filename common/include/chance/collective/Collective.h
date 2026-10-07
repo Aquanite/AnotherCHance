@@ -56,6 +56,11 @@ namespace CE::Collective
         uint64_t SectionCount;
     };
 
+    struct ModuleSection : Section
+    {
+
+    };
+
     struct EndSection : Section
     {
         CENative DataLength;

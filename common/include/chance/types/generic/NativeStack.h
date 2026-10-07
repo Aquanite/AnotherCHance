@@ -2,7 +2,6 @@
 #define CHANCE_TYPES_GENERIC_NATIVESTACK_H
 
 #include <chance/types/generic/NativeArray.h>
-#include <chance/types/types.h>
 #include <chance/target/system.h>
 #include <chance/assert.h>
 #include <chance/memory/Allocator.h>
