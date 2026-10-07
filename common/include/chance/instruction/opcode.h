@@ -6,7 +6,7 @@
 
 namespace CE
 {
-    enum_t CEILOpcode : uint8_t
+    enum_t Opcode : uint8_t
     {
         Nop,        // nop;         No operation
         Const_I,    // const.i X32; I32 Constant

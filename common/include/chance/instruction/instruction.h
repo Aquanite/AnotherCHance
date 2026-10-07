@@ -1,5 +1,4 @@
-#ifndef CHANCE_INSTRUCTION_INSTRUCTION_H
-#define CHANCE_INSTRUCTION_INSTRUCTION_H
+#pragma once
 
 #include <chance/instruction/opcode.h>
 #include <chance/types/qad.h>
@@ -7,17 +6,15 @@
 
 namespace CE
 {
-    struct CEILInstruction
+    struct Instruction
     {
-        CEILOpcode Opcode;
+        Opcode Opcode;
         union {
             VMi32       Integer;
             VMi64       LongInteger;
             VMNative    NativeInteger;
             VMPtr       Pointer;
             VMFloat     Float;
-        } Operand;
+        } Operand[3];
     };
 };
-
-#endif // CHANCE_INSTRUCTION_INSTRUCTION_H

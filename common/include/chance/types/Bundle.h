@@ -12,8 +12,7 @@ namespace CE
         friend Collective::Collective;
 
     public:
-
-
+        
     private:
         NativeStack<Bundle> NestedBundles;
         NativeStack<Field> Fields;

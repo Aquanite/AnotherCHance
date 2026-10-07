@@ -6,6 +6,7 @@
 #include <chance/target/system.h>
 #include <chance/assert.h>
 #include <chance/memory/Allocator.h>
+#include <new>
 
 namespace CE
 {
@@ -15,6 +16,9 @@ namespace CE
     public: // Public Methods
         ~NativeArray()
         {
+            for (T* item = base; item != current; ++item)
+                item->~T();
+
             Allocator<T>::NativeFree(base);
             top = current = base;
         }
@@ -25,6 +29,54 @@ namespace CE
                 return;
 
             CreateIfNotAlready(initialCount);
+        }
+
+        NativeArray(const NativeArray& other)
+        {
+            if (other.Length() == 0)
+                return;
+
+            CreateIfNotAlready(other.Length());
+            for (CENative i = 0; i < other.Length(); ++i)
+                new (current++) T(other.base[i]);
+        }
+
+        NativeArray& operator=(const NativeArray& other)
+        {
+            if (this == &other)
+                return *this;
+
+            Clear();
+            if (other.Length() == 0)
+                return *this;
+
+            CreateIfNotAlready(other.Length());
+            for (CENative i = 0; i < other.Length(); ++i)
+                new (current++) T(other.base[i]);
+
+            return *this;
+        }
+
+        NativeArray(NativeArray&& other) noexcept
+            : pinned(other.pinned), base(other.base), current(other.current), top(other.top)
+        {
+            other.pinned = false;
+            other.base = other.current = other.top = nullptr;
+        }
+
+        NativeArray& operator=(NativeArray&& other) noexcept
+        {
+            if (this == &other)
+                return *this;
+
+            this->~NativeArray();
+            pinned = other.pinned;
+            base = other.base;
+            current = other.current;
+            top = other.top;
+            other.pinned = false;
+            other.base = other.current = other.top = nullptr;
+            return *this;
         }
 
         T& operator[](CENative index)
@@ -43,7 +95,23 @@ namespace CE
 
             ExpandIfAtLimits();
 
-            *current++ = type;
+            new (current++) T(type);
+            return true;
+        }
+
+        bool Add(T* type, CENative count)
+        {
+            CreateIfNotAlready(count);
+
+            if (pinned && IsFull())
+                return false;
+
+            Grow(Capacity() + count);
+
+            Allocator<T>::MemCopy(current, type, count);
+
+            current += count;
+
             return true;
         }
 
@@ -98,7 +166,7 @@ namespace CE
             return static_cast<CENative>(top - base);
         }
 
-        CENative Length()
+        CENative Length() const
         {
             return static_cast<CENative>(current - base);
         }

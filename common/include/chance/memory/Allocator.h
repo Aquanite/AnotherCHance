@@ -40,12 +40,21 @@ namespace CE
 
         static void Shift(T*& ptr, CENative count, int direction)
         {
-            CE_ASSERT(count < CHANCE_NATIVE_MAX / sizeof(T), "Allocation will overflow");
+            CE_ASSERT(count < CHANCE_NATIVE_MAX / sizeof(T), "Shift will overflow");
             CE_ASSERT(ptr, "Pointer is null");
 
             CHANCE_MEMMOVE(ptr + direction, ptr, count * sizeof(T));
 
             ptr += direction;
+        }
+
+        static void MemCopy(T*& dest, T*& src, CENative count)
+        {
+            CE_ASSERT(count < CHANCE_NATIVE_MAX / sizeof(T), "Copy will overflow");
+            CE_ASSERT(dest, "dest is null");  
+            CE_ASSERT(src, "src is null");
+
+            CHANCE_MEMCOPY(dest, src, count * sizeof(T));
         }
     };
 };

@@ -11,6 +11,7 @@
     #define CHANCE_FREE(x) free(x)
     #define CHANCE_EXIT(x) exit(x)
     #define CHANCE_MEMMOVE(dest, src, len) memmove(dest, src, len)
+    #define CHANCE_MEMCOPY(dest, src, len) memcpy(dest, src, len)
     #define CHANCE_FAIL(x) fprintf(stderr, x); CHANCE_EXIT(-1)
     #define CHANCE_PRINT(x, ...) fprintf(stdout, "%s: " x, __FILE__ __VA_OPT__(,) __VA_ARGS__)
 #endif // CHANCE_USE_CUSTOM_IMPORTS
