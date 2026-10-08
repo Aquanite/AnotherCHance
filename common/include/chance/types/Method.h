@@ -1,6 +1,6 @@
 #pragma once
 
-#include <chance/instruction/instruction.h>
+#include <chance/instruction/Instruction.h>
 #include <chance/assert.h>
 #include <chance/types/Param.h>
 #include <chance/types/types.h>

@@ -23,7 +23,7 @@ namespace CE
         static void NativeRealloc(T*& old, CENative count)
         {
             CE_ASSERT(count < CHANCE_NATIVE_MAX / sizeof(T), "Allocation will overflow");
-
+ 
             old = static_cast<T*>(CHANCE_REALLOC(old, sizeof(T) * count)); // If Old is NULL, then it will just behave like malloc
 
             CE_ASSERT(old, "Allocation failed");

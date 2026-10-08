@@ -11,7 +11,6 @@
     {                                                                                                                                \
         CE_ERROR("Assertion Failed! \"" STR_CONTENTS(cond) "\": At " __FILE__ ":" STR_CONTENTS(__LINE__) "\nReason: " reason "\n");  \
     }
-
 #define CE_NOTIMPL() CE_ASSERT(false, "Not implemented!")
 
 #define CE_FAIL(x) CE_ERROR("At " __FILE__ ":" STR_CONTENTS(__LINE__) "\nReason: " x "\n")

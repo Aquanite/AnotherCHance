@@ -28,6 +28,15 @@ namespace CE
             return Nullable<Type>(Types[ref.ID]);
         }
 
+        static Nullable<Type> ResolveType(StringReference ref)
+        {
+            for (CENative i = 0; i < Types.Length(); i++)
+                if (Types[i].Qualified == ref)
+                    return Types[i];
+
+            return Nullable<Type>::Null;
+        }
+
         static Nullable<String> Resolve(StringReference ref)
         {
             if (!Strings.Exists(ref.ID))

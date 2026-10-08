@@ -1,6 +1,6 @@
 #pragma once
 
-#include <chance/instruction/opcode.h>
+#include <chance/instruction/Opcode.h>
 #include <chance/types/qad.h>
 #include <chance/types/vm.h>
 

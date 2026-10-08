@@ -2,21 +2,38 @@
 
 #include <chance/types/generic/NativeStack.h>
 #include <chance/types/types.h>
+#include <chance/instruction/Instruction.h>
 
 namespace CE::VM
 {
     struct StackFrame
     {
-        NativeArray<VMObject> Stack;
+        NativeStack<VMObject> Stack;
         NativeArray<VMObject> Local;
         NativeArray<VMObject> Param;
+    };
+
+    struct CatchFrame
+    {
+        CENative Start;
+        StringReference Catches;
+    };
+
+    struct ExceptionFrame
+    {
+        MethodReference Method;
+        CENative TryStart;
+        
     };
 
     class CVM
     {
     public:
-        VMObject CallMethod(StackFrame frame, MethodReference method);
+        VMObject CallMethod(StackFrame& frame, MethodReference method);
+    private:
+        CENative Next(StackFrame& frame, Instruction ins);
     private:
         NativeStack<MethodCall> CallStack;
+        NativeStack<MethodCall> ExceptionStack;
     };
 }

@@ -225,7 +225,7 @@ namespace CE
 
             if (to == 0)
             {
-                CHANCE_FREE(base);
+                Allocator<T>::NativeFree(base);
                 top = current = base = nullptr;
                 return true;
             }
