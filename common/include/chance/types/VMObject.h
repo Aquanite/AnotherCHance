@@ -15,6 +15,7 @@ namespace CE
         bool Managed;
 
         enum class VMObjectType : uint8_t {
+            VMVoid,
             VMi32,
             VMi64,
             VMNative,

@@ -5,7 +5,7 @@
 
 #define IDTYPE(type) \
     struct type { \
-    static type Fail; \
+        static type Fail; \
         CENative ID = CHANCE_NATIVE_MAX; \
         bool operator==(const type& other) const = default; \
     }

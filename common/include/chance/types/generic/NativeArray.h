@@ -6,7 +6,6 @@
 #include <chance/target/system.h>
 #include <chance/assert.h>
 #include <chance/memory/Allocator.h>
-#include <new>
 
 namespace CE
 {
@@ -16,11 +15,7 @@ namespace CE
     public: // Public Methods
         ~NativeArray()
         {
-            for (T* item = base; item != current; ++item)
-                item->~T();
-
-            Allocator<T>::NativeFree(base);
-            top = current = base;
+            Release();
         }
 
         NativeArray(CENative initialCount = 0)
@@ -69,11 +64,13 @@ namespace CE
             if (this == &other)
                 return *this;
 
-            this->~NativeArray();
+            Release();
+
             pinned = other.pinned;
             base = other.base;
             current = other.current;
             top = other.top;
+
             other.pinned = false;
             other.base = other.current = other.top = nullptr;
             return *this;
@@ -81,7 +78,7 @@ namespace CE
 
         T& operator[](CENative index)
         {
-            CE_ASSERT(Exists(index), "Index does not exist in the array"); // If somethings goes wrong, it's best to just end early
+            CE_ASSERT(Exists(index), "Index does not exist in the array");
 
             return *(base + index);
         }
@@ -312,6 +309,16 @@ namespace CE
 
             top += newSize;
             current += currentIndex;
+        }
+
+        void Release()
+        {
+            for (T* item = base; item != current; ++item)
+                item->~T();
+
+            Allocator<T>::NativeFree(base);
+            top = current = base = nullptr;
+            pinned = false;
         }
     private: // Private Data
         bool pinned = false;
