@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chance/types/VMObject.h>
 #include <chance/types/generic/NativeStack.h>
 #include <chance/types/types.h>
 #include <chance/instruction/Instruction.h>
@@ -31,7 +32,7 @@ namespace CE::VM
     public:
         VMObject CallMethod(StackFrame& frame, MethodReference method);
     private:
-        CENative Next(StackFrame& frame, Instruction ins);
+        CENative Next(StackFrame& frame, Instruction ins, CENative& IP);
     private:
         NativeStack<MethodCall> CallStack;
         NativeStack<MethodCall> ExceptionStack;
