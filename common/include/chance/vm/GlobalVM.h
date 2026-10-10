@@ -89,6 +89,15 @@ namespace CE
             return TypeReference { Types.IndexOf(type) };
         }
 
+        static TypeReference Get(StringReference ref)
+        {
+            for (CENative i = 0; i < Types.Length(); i++)
+                if (Types[i].Qualified == ref)
+                    return TypeReference { i };
+            
+            return TypeReference::Fail;
+        }
+
         static MethodReference Get(Method& method);
     private:
         static NativeArray<Type>    Types;

@@ -17,13 +17,18 @@ namespace CE
         static Method NullMethod;
     public:
         Method() = default;
-        Method(String qualified, Type returnType, NativeArray<Instruction>& body, NativeArray<Param>& params);
+        Method(String qualified, Type returnType, uint8_t* body, CENative instructionCount, NativeArray<Param>& params);
         Method(const Method&) = default;
         Method& operator=(const Method&) = default;
 
-        const NativeArray<Instruction>& GetBody() const
+        const uint8_t* GetBody() const
         {
             return Body;
+        }
+
+        CENative GetBodyLength() const
+        {
+            return InstructionCount;
         }
 
         const NativeArray<Param>& GetParameters() const
@@ -51,7 +56,8 @@ namespace CE
     private:
         StringReference Qualified;
         TypeReference ReturnType;
-        NativeArray<Instruction> Body;
+        uint8_t* Body;
+        CENative InstructionCount;
         NativeArray<Param> Parameters;
     };
 }
@@ -60,16 +66,17 @@ namespace CE
 
 namespace CE
 {
-    inline Method::Method(String qualified, Type returnType, NativeArray<Instruction>& body, NativeArray<Param>& params)
+    inline Method::Method(String qualified, Type returnType, uint8_t* body, CENative instructionCount, NativeArray<Param>& params)
     {
         Qualified = GlobalVM::Get(qualified);
         ReturnType = GlobalVM::Get(returnType);
         Body = body;
+        InstructionCount = instructionCount;
         Parameters = params;
 
         CE_ASSERT(Qualified != StringReference::Fail, "Qualified name does not exist!");
         CE_ASSERT(ReturnType != TypeReference::Fail, "Type does not exist!");
-        CE_ASSERT(Body.Length() > 0, "Body of method does not exist!");
+        CE_ASSERT(Body && InstructionCount > 0, "Body of method does not exist!");
     }
 
     inline Nullable<Type> Method::ResolveReturnType()

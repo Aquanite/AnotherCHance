@@ -1,5 +1,6 @@
 #pragma once
 
+#include "chance/types/types.h"
 #include <chance/vm/GlobalVM.h>
 #include <string.h>
 
@@ -8,13 +9,13 @@ namespace CE
 {
     struct alignas(0x8) VMObject
     {
-        static Nullable<CE::Type> TI32;
-        static Nullable<CE::Type> TI64;
-        static Nullable<CE::Type> TINative;
-        static Nullable<CE::Type> TPointer;
-        static Nullable<CE::Type> TSingle;
+        static TypeReference TI32;
+        static TypeReference TI64;
+        static TypeReference TINative;
+        static TypeReference TPointer;
+        static TypeReference TSingle;
 
-        CE::Type TrueType;
+        TypeReference TrueType;
         bool Managed;
 
         enum class VMObjectType : uint8_t {
@@ -39,22 +40,22 @@ namespace CE
 
         static void Initialize()
         {
-            TI32     = GlobalVM::ResolveType(GlobalVM::Get("System.I32"));
-            TI64     = GlobalVM::ResolveType(GlobalVM::Get("System.I64"));
-            TINative = GlobalVM::ResolveType(GlobalVM::Get("System.INative"));
-            TPointer = GlobalVM::ResolveType(GlobalVM::Get("System.Pointer"));
-            TSingle  = GlobalVM::ResolveType(GlobalVM::Get("System.Single"));
-            CE_ASSERT(!TI32     .IsNull(), "TI32 is null!");
-            CE_ASSERT(!TI64     .IsNull(), "TI64 is null!");
-            CE_ASSERT(!TINative .IsNull(), "TINative is null!");
-            CE_ASSERT(!TPointer .IsNull(), "TPointer is null!");
-            CE_ASSERT(!TSingle  .IsNull(), "TSingle is null!");
+            TI32     = GlobalVM::Get(GlobalVM::Get("System.I32"));
+            TI64     = GlobalVM::Get(GlobalVM::Get("System.I64"));
+            TINative = GlobalVM::Get(GlobalVM::Get("System.INative"));
+            TPointer = GlobalVM::Get(GlobalVM::Get("System.Pointer"));
+            TSingle  = GlobalVM::Get(GlobalVM::Get("System.Single"));
+            CE_ASSERT(TI32      != TypeReference::Fail, "TI32 is null!");
+            CE_ASSERT(TI64      != TypeReference::Fail, "TI64 is null!");
+            CE_ASSERT(TINative  != TypeReference::Fail, "TINative is null!");
+            CE_ASSERT(TPointer  != TypeReference::Fail, "TPointer is null!");
+            CE_ASSERT(TSingle   != TypeReference::Fail, "TSingle is null!");
         }
 
         static VMObject NewI32(VMi32 num)
         {
             return VMObject {
-                .TrueType = TI32.GetValue(),
+                .TrueType = TI32,
                 .Managed = false,
                 .Type = VMObjectType::VMi32,
                 .Integer = num
@@ -64,7 +65,7 @@ namespace CE
         static VMObject NewI64(VMi64 num)
         {
             return VMObject {
-                .TrueType = TI64.GetValue(),
+                .TrueType = TI64,
                 .Managed = false,
                 .Type = VMObjectType::VMi64,
                 .LongInteger = num  
@@ -74,7 +75,7 @@ namespace CE
         static VMObject NewNative(VMNative num)
         {
             return VMObject {
-                .TrueType = TINative.GetValue(),
+                .TrueType = TINative,
                 .Managed = false,
                 .Type = VMObjectType::VMNative,
                 .NativeInteger = num  
@@ -83,9 +84,9 @@ namespace CE
 
         static VMObject NewObject(VMPtr num, String qualified)
         {
-            Nullable<CE::Type> t = GlobalVM::ResolveType(GlobalVM::Get(qualified));
+            TypeReference t = GlobalVM::Get(GlobalVM::Get(qualified));
 
-            if (t.IsNull())
+            if (t == TypeReference::Fail)
             {
                 const char* unk = "Unknown type: ";
 
@@ -104,7 +105,7 @@ namespace CE
             }
 
             return VMObject {
-                .TrueType = t.GetValue(),
+                .TrueType = t,
                 .Managed = true,
                 .Type = VMObjectType::VMMObject,
                 .Pointer = num  
@@ -114,7 +115,7 @@ namespace CE
         static VMObject NewPointer(VMPtr num, bool managed)
         {
             return VMObject {
-                .TrueType = TPointer.GetValue(),
+                .TrueType = TPointer,
                 .Managed = managed,
                 .Type = VMObjectType::VMPtr,
                 .Pointer = num  
@@ -124,7 +125,7 @@ namespace CE
         static VMObject NewSingle(VMFloat num)
         {
             return VMObject {
-                .TrueType = TSingle.GetValue(),
+                .TrueType = TSingle,
                 .Managed = false,
                 .Type = VMObjectType::VMFloat,
                 .Single = num  

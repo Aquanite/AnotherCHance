@@ -27,12 +27,21 @@ namespace CE::VM
         
     };
 
+    enum_t NextOptions : uint8_t
+    {
+        Nothing,
+        Return
+    };
+
     class CVM
     {
     public:
-        VMObject CallMethod(StackFrame& frame, MethodReference method);
+        /// Call a CEIL method
+        ///
+        /// return: Is Unwinding?
+        bool CallMethod(StackFrame& frame, MethodReference method);
     private:
-        CENative Next(StackFrame& frame, Instruction ins, CENative& IP);
+        NextOptions Next(StackFrame& frame, Instruction ins, CENative& IP);
     private:
         NativeStack<MethodCall> CallStack;
         NativeStack<MethodCall> ExceptionStack;

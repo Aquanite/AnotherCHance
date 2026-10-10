@@ -19,10 +19,11 @@ namespace CE
         St_l,       // st.l X16;    Store Local
         St_a,       // st.a X16;    Store Argument
         Add,        // add;         Add two items on the stack
-        Padd,       // padd X32;    Add pointers on the stack
+        Padd,       // padd;        Add pointers on the stack
         Sub,        // sub;         Subtract two items on the stack
-        Psub,       // psub X32;    Subtract pointers on the stack
+        Psub,       // psub;        Subtract pointers on the stack
         Dup,        // dup;         Duplicate the top item
+        Drop,       // drop;        Drop the top item
         Ret         // ret;         Return
     };
 };
